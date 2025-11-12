@@ -47,9 +47,12 @@
                     Sharing
                 </a>
             </nav>
-
             <div class="mt-auto">
-                <button class="text-red-500 hover:text-red-400 transition font-semibold">Logout</button>
+                <!-- Diubah dari <button> menjadi <a> (anchor tag) -->
+                <a href="../index.php"
+                    class="text-red-500 hover:text-red-400 transition font-semibold cursor-pointer">
+                    Logout
+                </a>
                 <p class="text-gray-600 text-xs mt-8">© Copyright 2025 DanielWrks</p>
             </div>
         </div>

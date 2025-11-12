@@ -24,7 +24,8 @@
 </head>
 
 <body class="bg-white text-white fixed-layout">
-    <div class="flex h-full"> <div class="w-72 bg-black border-r border-gray-800 p-8 flex flex-col h-full">
+    <div class="flex h-full">
+        <div class="w-72 bg-black border-r border-gray-800 p-8 flex flex-col h-full">
             <div class="mb-12">
                 <div class="flex-shrink-0 w-24 h-24 bg-black rounded-lg overflow-hidden">
                     <img src="../ASSET/LOGO/DW_FIX.png" alt="Screenshot Proyek" class="w-full h-full object-cover">
@@ -55,11 +56,15 @@
             </nav>
 
             <div class="mt-auto">
-                <button class="text-red-500 hover:text-red-400 transition font-semibold">Logout</button>
+                <!-- Diubah dari <button> menjadi <a> (anchor tag) -->
+                <a href="../index.php"
+                    class="text-red-500 hover:text-red-400 transition font-semibold cursor-pointer">
+                    Logout
+                </a>
                 <p class="text-gray-600 text-xs mt-8">© Copyright 2025 DanielWrks</p>
             </div>
         </div>
-        
+
         <div class="flex-1 h-full overflow-y-auto p-12">
             <div class="max-w-5xl">
                 <div class="bg-black rounded-3xl p-12">
@@ -67,7 +72,7 @@
                         <h2 class="text-5xl font-bold text-lime-400 mb-2">Sharing</h2>
                         <p class="text-gray-400">Share semua pengalaman hasil belajar</p>
                     </div>
-                    
+
                     <form action="#" method="POST" enctype="multipart/form-data">
                         <div class="mb-6">
                             <label for="sharing_file"
@@ -102,7 +107,7 @@
                             Share Experience!
                         </button>
                     </form>
-                    
+
                     <div class="mt-12 pt-8 border-t border-gray-700">
                         <h3 class="text-3xl font-bold text-white mb-6">List Sharing Pengalaman</h3>
 
