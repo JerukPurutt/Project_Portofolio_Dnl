@@ -71,8 +71,8 @@ $stmt->close();
         <div class="bg-black rounded-3xl p-10 grid md:grid-cols-2 gap-16 items-center relative">
 
             <div class="absolute top-5 left-8 text-sm px-5 text-white z-10">
-                <a href="index.php#projects" class="hover:underline">← Back</a> / Sharing > 
-                <?php echo htmlspecialchars($sharing['judul_experience']); ?>
+                <a href="index.php#projects" class="hover:underline">← Back</a> 
+                  <span class="text-gray-500">/ Sharing >  <?php echo htmlspecialchars($sharing['judul_experience']); ?></span>
             </div>
 
             <div class="bg-white rounded-2xl p-8 flex justify-center items-center">
@@ -106,7 +106,7 @@ $stmt->close();
 
         </div>
 
-    <footer class="bg-black border-t text-center border-gray-800 px-6 py-6">
+    <footer class="bg-black border-t text-center border-gray-800 px-6 py-6 fixed w-full bottom-0 left-0 z-10">
         <div class="max-w-7xl mx-auto flex justify-between items-center gap-4 text-sm text-gray-400">
 
             <div>

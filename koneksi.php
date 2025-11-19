@@ -8,7 +8,6 @@ $database = "portofolio_dnl";
 // Membuat koneksi
 $koneksi = new mysqli($servername, $username, $password, $database);
 
-
 // Memeriksa koneksi
 if ($koneksi->connect_error) {
     die("Koneksi Gagal: " . $koneksi->connect_error);

@@ -133,11 +133,9 @@ $stmt->close();
                 ?>
             </div>
         </div>
-
     </div>
-    <footer class="bg-black border-t text-center border-gray-800 px-6 py-6">
+    <footer class="bg-black border-t text-center border-gray-800 px-6 py-6 fixed w-full bottom-0 left-0 z-10">
         <div class="max-w-7xl mx-auto flex justify-between items-center gap-4 text-sm text-gray-400">
-
             <div>
                 <img src="ASSET/LOGO/DW_FIX.png" alt="Logo" class="h-[80px] w-auto">
             </div>
@@ -147,9 +145,7 @@ $stmt->close();
                 <a href="biodata.php#pendidikan" class="hover:text-white transition">Pendidikan</a>
                 <a href="Login.php" class="hover:text-white transition">Admin</a>
             </div>
-
             <p>© Copyright 2025 Daniel Wrks</p>
-
         </div>
     </footer>
 </body>
