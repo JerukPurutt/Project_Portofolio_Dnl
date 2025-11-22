@@ -266,7 +266,6 @@ $koneksi->close();
                 setTimeout(() => {
                     closeToast();
                 }, 3000);
-                
                 // 3. Bersihkan URL agar toast tidak muncul saat refresh
                 if (window.history.replaceState) {
                     const url = new URL(window.location);
@@ -276,7 +275,6 @@ $koneksi->close();
                 }
             }
         });
-
         function closeToast() {
             const toast = document.getElementById('toast-notification');
             if (toast) {

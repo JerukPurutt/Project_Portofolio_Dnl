@@ -1,37 +1,38 @@
 <?php
 include 'koneksi.php';
-$sql_projects = "SELECT id_project, judul_project, deskripsi_project, tanggal_pengerjaan, gambar_data, gambar_tipe 
+
+// 1. QUERY PROJECTS
+$sql_projects = "SELECT id_project, judul_project, deskripsi_project, tanggal_pengerjaan, gambar_tipe 
                  FROM tb_projects 
-                 ORDER BY tanggal_pengerjaan DESC"; // Urutkan dari yang terbaru
-
+                 ORDER BY tanggal_pengerjaan DESC";
 $result_projects = $koneksi->query($sql_projects);
+$project_count = $result_projects->num_rows; // Menghitung jumlah project
 
-$sql_sertif = "SELECT id_sertifikat, judul_sertifikat, deskripsi_sertifikat, gambar_data, gambar_tipe 
+// 2. QUERY SERTIFIKAT
+$sql_sertif = "SELECT id_sertifikat, judul_sertifikat, deskripsi_sertifikat, gambar_data, gambar_tipe, waktu_dibuat 
                FROM tb_sertifikat 
                ORDER BY waktu_dibuat DESC";
 $result_sertifikat = $koneksi->query($sql_sertif);
+$sertifikat_count = $result_sertifikat->num_rows; // Menghitung jumlah sertifikat
 
+// 3. QUERY SHARING
 $sql_sharing = "SELECT id_sharing, judul_experience, link_optional, deskripsi, gambar_data, gambar_tipe, waktu_dibuat 
                 FROM tb_sharing 
                 ORDER BY waktu_dibuat DESC";
 $result_sharing = $koneksi->query($sql_sharing);
-
-$sharing_count = $result_sharing->num_rows;
-$sertifikat_count = $result_sertifikat->num_rows;
-$project_count = $result_projects->num_rows;
+$sharing_count = $result_sharing->num_rows; // Menghitung jumlah sharing
 ?>
+
 </html>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="ASSET/LOGO/DW_FIX.png">
-    <link rel="icon" type="image/png" href="ASSET/LOGO/DW_FIX.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daniel's Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="style.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
@@ -57,9 +58,9 @@ $project_count = $result_projects->num_rows;
     </style>
 </head>
 
-<body class="dark-bg text-white" id="home" >
+<body class="dark-bg text-white" id="home">
     <!-- Navigation -->
-    <nav class="bg-black border-b border-gray-800 px-6  fixed w-full top-0 left-0 z-10" >
+    <nav class="bg-black border-b border-gray-800 px-6  fixed w-full top-0 left-0 z-10">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="#home">
                 <img src="ASSET/LOGO/DW_FIX.png" alt="FR1 Index Logo" class="h-20 w-auto">
@@ -72,8 +73,7 @@ $project_count = $result_projects->num_rows;
             </div>
         </div>
     </nav>
-
-    <div class="max-w-7xl mx-auto px-6 pt-20 pb-20" style="padding-top: 180px;" >
+    <div class="max-w-7xl mx-auto px-6 pt-20 pb-20" style="padding-top: 180px;">
         <div class="neon-green rounded-3xl mb-8 flex items-center justify-between" data-aos="fade-down">
             <div class="text-black max-w-xl ml-8">
                 <h2 class="text-5xl font-extrabold mb-4 leading-tight">
@@ -186,9 +186,12 @@ $project_count = $result_projects->num_rows;
                                 <h4 class="text-xl font-bold mb-2"><?php echo $judul; ?></h4>
                                 <p class="text-gray-400 text-xs mb-4"><?php echo $deskripsi_singkat; ?></p>
 
-                                <?php if (!empty($row['gambar_data'])) { ?>
-                                    <img src="data:<?php echo htmlspecialchars($row['gambar_tipe']); ?>;base64,<?php echo base64_encode($row['gambar_data']); ?>"
-                                        alt="<?php echo $judul; ?>" class="rounded-lg mb-4 w-full h-[256px] object-cover">
+                                <?php if (!empty($row['gambar_tipe'])) { ?>
+                                    <img src="view_image.php?type=project&id=<?php echo $id; ?>"
+                                        loading="lazy"
+                                        alt="<?php echo $judul; ?>"
+                                        class="rounded-lg mb-4 w-full h-[256px] object-cover">
+
                                 <?php } else { ?>
                                     <div class="rounded-lg mb-4 w-full h-[256px] bg-gray-700 flex items-center justify-center">
                                         <span class="text-gray-400 text-sm">No Image</span>
@@ -244,8 +247,10 @@ $project_count = $result_projects->num_rows;
                                 // Cek jika ada file dan tipenya adalah gambar
                                 if (!empty($row_share['gambar_data']) && strpos($row_share['gambar_tipe'], 'image') !== false) {
                                 ?>
-                                    <img src="data:<?php echo $row_share['gambar_tipe']; ?>;base64,<?php echo base64_encode($row_share['gambar_data']); ?>"
-                                        alt="<?php echo $sh_judul; ?>" class="rounded-lg mb-4 w-full h-[256px] object-cover">
+                                    <img src="view_image.php?type=sharing&id=<?php echo $row_share['id_sharing']; ?>"
+                                        loading="lazy"
+                                        alt="<?php echo $sh_judul; ?>"
+                                        class="rounded-lg mb-4 w-full h-[256px] object-cover">
                                 <?php
                                 } else {
                                     // Tampilkan placeholder jika PDF atau kosong
@@ -311,8 +316,10 @@ $project_count = $result_projects->num_rows;
                                 // Cek jika ada file dan tipenya adalah gambar
                                 if (!empty($row_sertif['gambar_data']) && strpos($row_sertif['gambar_tipe'], 'image') !== false) {
                                 ?>
-                                    <img src="data:<?php echo $row_sertif['gambar_tipe']; ?>;base64,<?php echo base64_encode($row_sertif['gambar_data']); ?>"
-                                        alt="<?php echo $s_judul; ?>" class="rounded-lg mb-4 w-full h-[256px] object-cover">
+                                    <img src="view_image.php?type=sertifikat&id=<?php echo $row_sertif['id_sertifikat']; ?>"
+                                        loading="lazy"
+                                        alt="<?php echo $s_judul; ?>"
+                                        class="rounded-lg mb-4 w-full h-[256px] object-cover">
                                 <?php
                                 } else {
                                     // Tampilkan placeholder jika PDF atau kosong
@@ -377,16 +384,16 @@ $project_count = $result_projects->num_rows;
                         Send Message Now!
                     </button>
                 </form>
-                <div class="mt-6" >
+                <div class="mt-6">
                     <h4 class="text-xl font-bold mb-3">Hit Me Up!</h4>
                     <div class="flex gap-4 text-sm">
-                        <a href="#" class="flex items-center gap-2 text-gray-400 hover:text-white transition">
+                        <a href="rafiakbar.@gmail.com" class="flex items-center gap-2 text-gray-400 hover:text-white transition">
                             <span>📧</span> Email
                         </a>
-                        <a href="#" class="flex items-center gap-2 text-gray-400 hover:text-white transition">
+                        <a href="@rafiakbar" class="flex items-center gap-2 text-gray-400 hover:text-white transition">
                             <span>📸</span> Instagram
                         </a>
-                        <a href="#" class="flex items-center gap-2 text-gray-400 hover:text-white transition">
+                        <a href="rafi_akbar_pp" class="flex items-center gap-2 text-gray-400 hover:text-white transition">
                             <span>💼</span> LinkedIn
                         </a>
                     </div>
@@ -446,10 +453,6 @@ $project_count = $result_projects->num_rows;
     </div>
 </body>
 <script>
-    AOS.init({
-            duration: 1000, 
-            once: true,
-        });
     function openCertificatePopup(dataType, dataContent) {
         const popup = document.getElementById('certificatePopup');
         const contentArea = document.getElementById('certificateContent');
@@ -536,7 +539,9 @@ $project_count = $result_projects->num_rows;
             btnActive.classList.add('active-btn');
         }
         // Trigger AOS refresh saat ganti tab agar animasi jalan di konten baru
-            setTimeout(() => { AOS.refresh(); }, 100);
+        setTimeout(() => {
+            AOS.refresh();
+        }, 100);
     }
 
     // Tambahkan gaya awal supaya jelas perbedaan tombol aktif / tidak
@@ -557,14 +562,6 @@ $project_count = $result_projects->num_rows;
     `;
         document.head.appendChild(style);
     });
-
-    // function showSection(section) {
-    //     document.getElementById('projects').classList.add('hidden');
-    //     document.getElementById('sharing').classList.add('hidden');
-    //     document.getElementById('sertificates').classList.add('hidden');
-    //     document.getElementById(section).classList.remove('hidden');
-    // }
-
     function openPopup(type) {
         const popup = document.getElementById('popupOverlay');
         const content = document.getElementById('popupContent');
@@ -607,5 +604,4 @@ $project_count = $result_projects->num_rows;
         document.getElementById('popupOverlay').classList.add('hidden');
     }
 </script>
-
 </html>
